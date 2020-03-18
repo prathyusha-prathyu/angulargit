@@ -1,0 +1,219 @@
+
+<h2 class="text-center" style="color:gray;">Laptop Details</h2>
+<button type="button" class="btn btn-primary float-right mt-2 mb-2" data-target="#l" data-toggle="modal">Add</button>
+
+<div class="modal fade" id="l" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p id="err" class="text-danger"></p>
+           <form #ref="ngForm" class="register-form" id="register-form" (ngSubmit)="adddata(ref.value)">
+            <div class="form-group">
+              <!-- <label for="sysid"><i class="fas fa-id-card"></i></label> -->
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-id-card" aria-hidden="true"></i></span>
+              <input type="text" name="sysid" [(ngModel)]="data.sysid" id="sysid" placeholder="Your System ID"/>
+              </div>
+            </div>
+
+          <!-- <div class="form-group">
+            <input type="radio" class="form-control-input"  [(ngModel)]="data.owner" name="owner" #ref41="ngModel" id="y2" value="own"/>Owner
+            <input type="radio" class="form-control-input"   [(ngModel)]="data.owner" name="owner" #ref41="ngModel"id="y3" value="rented"/>Rented<br>
+          </div> -->
+          <div class="form-group">
+            <p id="err" class="text-danger"></p>
+            <select class="form-control" [(ngModel)]="data.owner"  name="owner">
+              <option [value]="owner" disabled selected="selected">Choose Owner/Rented</option>
+              <option value="own">Owner</option>
+              <option value="rented">Rented</option>
+
+            </select>
+          </div>
+
+
+          <div class="form-group">
+
+            <!-- <input type="radio" class="form-control-input"  [(ngModel)]="data.systype" name="systype" #ref41="ngModel" id="y4" value="laptop">Laptop
+            <input type="radio" class="form-control-input"   [(ngModel)]="data.systype" name="systype" #ref41="ngModel"id="y5" value="desktop">Desktop -->
+            <select class="form-control" [(ngModel)]="data.systype"  name="systype">
+              <option [value]="systype" disabled selected="selected">Choose Desktop/Laptop</option>
+              <option value="desktop">Desktop</option>
+              <option value="laptop">Laptop</option>
+
+            </select>
+
+            </div>
+
+
+
+
+          <div class="form-group">
+              <!-- <label for="ram"><i class="fas fa-memory" aria-hidden="true"></i></label> -->
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fas fa-memory" aria-hidden="true"></i></span>
+              <input type="text" name="ram" id="ram" [(ngModel)]="data.ram" placeholder="Your RAM"/>
+                </div>
+            </div>
+          <div class="form-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fas fa-hdd" aria-hidden="true"></i></span>
+              <!-- <label for="hdd"><i class="fas fa-hdd"></i></label> -->
+              <input type="text" name="hdd" [(ngModel)]="data.hdd" id="email" placeholder="Your HardDisk"/>
+              </div>
+            </div>
+          <div class="form-group">
+              <label for="rd"><i class="fa fa-calendar-alt"></i></label>
+              <input type="text"  name="rd" onfocus="(this.type='date')" [(ngModel)]="data.rd" id="rd" min="{{minDate}}" max="{{maxDate}}" placeholder="Received Date"/>
+          </div>
+          <div class="form-group">
+            <label for="rtd"><i class="fa fa-calendar-alt"></i></label>
+            <input type="text"  name="rtd" onfocus="(this.type='date')" [(ngModel)]="data.rtd" id="rtd" min="{{minDate}}" max="{{maxDate}}" placeholder="Return Date"/>
+        </div>
+
+
+          <div class="form-group form-button text-right">
+            <button type="button"  class="mr-2" data-dismiss="modal">Close</button>
+            <button type="submit" [disabled] ="ref.invalid" >ADD</button>
+          </div>
+      </form>
+</div>
+</div>
+</div>
+</div>
+
+<table class="table table-hover" id="resNot">
+  <thead class="table-head thead-light">
+    <th>SysID</th>
+    <th>Owner/Rented</th>
+    <th>SystemType</th>
+
+    <th>Ram</th>
+    <th>HDD</th>
+    <th>Date Of Receiving</th>
+    <th>Date Of Returned</th>
+    <th>Edit</th>
+    <th>Delete</th>
+  </thead>
+  <tr *ngFor="let data of userdata">
+    <td>{{data.sysid}}</td>
+    <td>{{data.owner}}</td>
+    <td>{{data.systype}}</td>
+    <td>{{data.ram}}</td>
+    <td>{{data.hdd}}</td>
+    <td>{{data.rd}}</td>
+    <td>{{data.rtd}}</td>
+    <td><button type="button" data-target="#exampleModal" class="btn btn-info"  data-toggle="modal" (click)="edit(data)">Edit</button></td>
+    <td>
+      <button type="button" class="btn btn-info" data-toggle="modal" data-target="#example">
+        DELETE
+      </button>
+
+      <!-- Modal -->
+      <div class="modal fade" id="example" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+
+            <div class="modal-body">
+              Do you want to delete this?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+              <button type="button" class="btn btn-primary" (click)="delete(data)">YES</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </td>
+  </tr>
+</table>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <form #ref="ngForm">
+          <div class="form-group">
+            <!-- <label for="sysid"><i class="fas fa-id-card"></i></label> -->
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fas fa-id-card" aria-hidden="true"></i></span>
+            <input type="text" name="sysid" [(ngModel)]="obj.sysid" id="sysid" placeholder="Your System ID"/>
+              </div>
+          </div>
+        <div class="form-group">
+          <p id="err" class="text-danger"></p>
+          <select class="form-control" [(ngModel)]="obj.owner"  name="owner">
+            <option [value]="owner" disabled selected="selected">Choose Owner/Rented</option>
+            <option value="own">Owner</option>
+            <option value="rented">Rented</option>
+
+          </select>
+        </div>
+
+
+        <div class="form-group">
+
+          <!-- <input type="radio" class="form-control-input"  [(ngModel)]="data.systype" name="systype" #ref41="ngModel" id="y4" value="laptop">Laptop
+          <input type="radio" class="form-control-input"   [(ngModel)]="data.systype" name="systype" #ref41="ngModel"id="y5" value="desktop">Desktop -->
+          <select class="form-control" [(ngModel)]="obj.systype"  name="systype">
+            <option [value]="systype" disabled selected="selected">Choose Desktop/Laptop</option>
+            <option value="desktop">Desktop</option>
+            <option value="laptop">Laptop</option>
+
+          </select>
+
+          </div>
+
+        <div class="form-group">
+            <!-- <label for="ram"><i class="fas fa-memory" aria-hidden="true"></i></label> -->
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fas fa-memory" aria-hidden="true"></i></span>
+            <input type="text" name="ram" id="ram" [(ngModel)]="obj.ram" placeholder="Your RAM"/>
+              </div>
+          </div>
+        <div class="form-group">
+            <!-- <label for="hdd"><i class="fas fa-hdd"></i></label> -->
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fas fa-hdd" aria-hidden="true"></i></span>
+            <input type="text" name="hdd" [(ngModel)]="obj.hdd" id="email" placeholder="Your HardDisk"/>
+              </div>
+          </div>
+        <div class="form-group">
+            <label for="rd"><i class="fa fa-calendar-alt"></i></label>
+            <input type="date" name="rd" [(ngModel)]="obj.rd" id="rd" placeholder="Your Received Date"/>
+        </div>
+        <div class="form-group">
+          <label for="rtd"><i class="fa fa-calendar-alt"></i></label>
+          <input type="date" name="rtd" [(ngModel)]="obj.rtd" id="rtd" placeholder="Date Return Date"/>
+      </div>
+
+
+        <div class="form-group form-button text-right">
+          <button type="button"  class="mr-2" data-dismiss="modal">Close</button>
+          <button type="submit" (click)="updatedata()">Update</button>
+        </div>
+    </form>
+
+
+      </div>
+      <div class="modal-footer">
+
+      </div>
+
+    </div>
+  </div>
+</div>

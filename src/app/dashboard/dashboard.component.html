@@ -1,0 +1,319 @@
+<button type="button" class="btn btn-primary float-right mt-2 mb-2" data-target="#l" data-toggle="modal">Assign</button>
+<div class="modal fade" id="l" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+
+      <div class="modal-body">
+
+        <form #ref="ngForm">
+          <div class="form-group">
+            <p id="err" class="text-danger"></p>
+            <select class="form-control" [(ngModel)]="getData.emp"  name="emp" (change)= "myData()">
+              <option [value]="empId" disabled selected="selected">Choose Employee ID</option>
+              <option *ngFor="let i of edata" [(ngValue)]="i._id">
+                {{i.empid}}
+              </option>
+
+            </select>
+
+
+          </div>
+
+          <div class="form-group" >
+
+            <select  class="form-control" [(ngModel)]="onePerson.empname"  name="empname" >
+              <option [value]="empname" disabled selected="selected">Choose Employee Name</option>
+              <option >
+                {{onePerson.empname}}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <p id="err1" class="text-danger"></p>
+            <select class="form-control"  [(ngModel)]="getData.sys"  name="sysid">
+              <option [value]="sysid" disabled selected="selected">Choose System ID</option>
+              <option *ngFor="let i of systemid" [(ngValue)]="i._id">
+                {{i.sysid}}
+              </option>
+            </select>
+          </div>
+
+
+          <div class="form-group">
+
+            <select class="form-control"  [(ngModel)]="getData.os"  name="os">
+              <option [value]="osname" disabled selected="selected">Choose OS</option>
+              <option *ngFor="let i of sos" [(ngValue)]="i._id">
+                {{i.osname}}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+
+            <select class="form-control"  [(ngModel)]="getData.ms"  name="ms">
+              <option [value]="msname" disabled selected="selected">Choose MS Office</option>
+              <option *ngFor="let i of mso" [(ngValue)]="i._id">
+                {{i.msname}}
+              </option>
+            </select>
+          </div>
+          <!-- <div class="form-group" *ngIf="modaldata">
+          <mat-form-field>
+            <input  [(ngModel)] = "getData.date" name="date" matInput [matDatepicker]="picker" [min]="today" [max]="futureDate" placeholder="Choose a date"  />
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker id="datepicker" #picker (click)="datadisable()"></mat-datepicker>
+          </mat-form-field>
+          </div> -->
+          <div class="form-group">
+            <label for="rd"><i class="fa fa-calendar-alt"></i></label>
+            <input type="text" name="rd" onfocus="(this.type='date')" [(ngModel)]="getData.rd" id="rd" min="{{minDate}}" max="{{maxDate}}" placeholder="Issue Date">
+        </div>
+        <div class="form-group">
+          <label for="rtd"><i class="fa fa-calendar-alt"></i></label>
+          <input type="text" name="rtd" onfocus="(this.type='date')" [(ngModel)]="getData.rtd" id="rtd" min="{{minDate}}" max="{{maxDate}}" placeholder="Return Date">
+        </div>
+
+        <div class="form-group form-button text-right">
+          <button type="button"  class="mr-2" data-dismiss="modal" >Close</button>
+          <button type="submit" [disabled] ="ref.invalid" id="bu" (click)="adddata()">ADD</button>
+        </div>
+        </form>
+
+        </div>
+        </div>
+        </div>
+        </div>
+
+
+<table class="table table-hover" id="resNot">
+  <thead class="table-head thead-light">
+    <th>EmpId</th>
+    <th>EmpName</th>
+    <th>SysId</th>
+
+    <th>OS</th>
+    <th>MSOffice</th>
+    <th>Issue Date</th>
+    <th>Return Date</th>
+    <th>Edit</th>
+    <th>Delete</th>
+  </thead>
+  <tr *ngFor="let data of dashdata">
+    <td>{{data.empid}}</td>
+    <td>{{data.empname}}</td>
+    <td>{{data.sysid}}</td>
+    <td>{{data.osname}}</td>
+    <td>{{data.msname}}</td>
+    <td>{{data.rd}}</td>
+    <td>{{data.rtd}}</td>
+    <td><button type="button" data-target="#exampleModal"  data-toggle="modal" class="btn btn-info" (click)="edit(data)">Edit</button></td>
+    <td>
+      <button type="button" class="btn btn-info" data-toggle="modal" data-target="#example">
+        DELETE
+      </button>
+
+      <!-- Modal -->
+      <div class="modal fade" id="example" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-body">
+              Do you want to delete this?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+              <button type="button" class="btn btn-primary" (click)="delete(data)">YES</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </td>
+  </tr>
+</table>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <form #ref1="ngForm" (ngSubmit)="updatedata()">
+          <div class="form-group">
+            <!-- <label for="emp">Select Employee ID</label> -->
+            <select class="form-control" [(ngModel)]="obj.empid"  name="empid" (change)="changing()">
+              <!-- <option value="" disabled selected>Example Placeholder</option>  -->
+              <option  disabled>
+                {{obj.empid}}
+              </option>
+              <p>{{getData}}</p>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <!-- <label>Select Employee Name</label> -->
+            <select  class="form-control" [(ngModel)]="obj.empname"  name="empname" >
+
+              <option disabled>
+                {{obj.empname}}
+              </option>
+              <p>{{getData}}</p>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <!-- <label for="sys">Select System ID</label> -->
+            <select class="form-control"  [(ngModel)]="obj.sys"  name="sys">
+              <!-- <option value="0" >System ID</option> -->
+              <option *ngFor="let i of systemid" [(ngValue)]="i._id">
+                {{i.sysid}}
+              </option>
+              <p>{{getData}}</p>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <!-- <label for="os">Select OS </label> -->
+            <select class="form-control"  [(ngModel)]="obj.os"  name="os">
+              <!-- <option value="0" >OS Name</option> -->
+              <option *ngFor="let i of sos" [(ngValue)]="i._id">
+                {{i.osname}}
+              </option>
+              <p>{{getData}}</p>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <!-- <label for="ms">Select MS Office</label> -->
+            <select class="form-control"  [(ngModel)]="obj.ms"  name="ms">
+              <!-- <option value="0" >MS Office Name</option> -->
+              <option *ngFor="let i of mso" [(ngValue)]="i._id">
+                {{i.msname}}
+              </option>
+              <p>{{getData}}</p>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="rd"><i class="fa fa-calendar-alt"></i></label>
+            <input type="date" name="rd" [(ngModel)]="obj.rd" id="rd" min="{{minDate}}" max="{{maxDate}}" placeholder="Your Received Date"/>
+        </div>
+        <div class="form-group">
+          <label for="rtd"><i class="fa fa-calendar-alt"></i></label>
+          <input type="date" name="rtd" [(ngModel)]="obj.rtd" id="rtd" min="{{minDate}}" max="{{maxDate}}" placeholder="Date Return Date"/>
+      </div>
+
+      <div class="form-group form-button text-right">
+        <button type="button"  class="mr-2" data-dismiss="modal">Close</button>
+        <button [disabled] ="ref1.invalid" type="submit">Update</button>
+      </div>
+
+        </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- <form #ref="ngForm" (ngSubmit)="updatedata()">
+          <div class="form-group">
+            <label for="empid"><i class="fas fa-id-card"></i></label>
+            <input type="text" name="empid" [(ngModel)]="obj.empid" id="empid" placeholder="Your Emp ID"/>
+          </div>
+        <div class="form-group">
+            <label for="empname"><i class="fas fa-memory" aria-hidden="true"></i></label>
+            <input type="text" name="empname" id="empname" [(ngModel)]="obj.empname" placeholder="Your empname"/>
+        </div>
+        <div class="form-group">
+            <label for="sysid"><i class="fas fa-hdd"></i></label>
+            <input type="text" name="sysid" [(ngModel)]="obj.sysid" id="sysid" placeholder="Your sysid"/>
+        </div>
+
+        <div class="form-group">
+          <label for="osname"><i class="fas fa-hdd"></i></label>
+          <input type="text" name="osname" [(ngModel)]="obj.osname" id="osname" placeholder="Your osname"/>
+      </div>
+
+      <div class="form-group">
+        <label for="msname"><i class="fas fa-hdd"></i></label>
+        <input type="text" name="msname" [(ngModel)]="obj.msname" id="osname" placeholder="Your msname"/>
+    </div>
+
+        <div class="form-group">
+            <label for="rd"><i class="fa fa-calendar-alt"></i></label>
+            <input type="text" name="rd" [(ngModel)]="obj.rd" id="rd" placeholder="Your Received Date"/>
+        </div>
+        <div class="form-group">
+          <label for="rtd"><i class="fa fa-calendar-alt"></i></label>
+          <input type="text" name="rtd" [(ngModel)]="obj.rtd" id="rtd" placeholder="Date Return Date"/>
+      </div>
+
+
+        <div class="form-group form-button text-right">
+          <button type="button"  class="mr-2" data-dismiss="modal">Close</button>
+          <button type="submit">Update</button>
+        </div>
+    </form>
+                -->
+
+      </div>
+      <div class="modal-footer">
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+          <!-- <div class="form-group">
+            <select [(ngModel)]="getData.rd"  name="rd">
+              <option value="0" >Received Date</option>
+              <option *ngFor="let i of srd" [(ngValue)]="i._id">
+                {{i.rd}}
+              </option>
+              <p>{{getData}}</p>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <select [(ngModel)]="getData.rtd"  name="rtd">
+              <option value="0" >Return Date</option>
+              <option *ngFor="let i of srtd" [(ngValue)]="i._id">
+                {{i.rtd}}
+              </option>
+              <p>{{getData}}</p>
+            </select>
+          </div> -->
